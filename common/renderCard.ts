@@ -2,13 +2,8 @@ import { readFileSync } from 'fs'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import { flushToHTML } from 'styled-jsx/server'
-import { fetchQuery } from 'react-relay'
 
 import Card from '../src/components/preview/card'
-import enviornment from './relay/environment'
-import repoQuery from './relay/repoQuery'
-
-import { repoQueryResponse } from './relay/__generated__/repoQuery.graphql'
 
 import { Font } from './types/configType'
 import QueryType from './types/queryType'
@@ -31,13 +26,6 @@ const getGoogleFontCSS = (font: Font): string => {
     .split('\n')
     .filter(f => f.startsWith(`@font-face {font-family: '${font}'`))
     .join('\n')
-}
-
-const getRepoResponse = async (owner: string, name: string) => {
-  return (await fetchQuery(enviornment, repoQuery, {
-    owner,
-    name
-  })) as repoQueryResponse
 }
 
 const getBase64Image = async (imgUrl: string) => {
@@ -65,23 +53,17 @@ const getBase64Image = async (imgUrl: string) => {
 }
 
 const renderCard = async (query: QueryType) => {
-  const responsePromise = getRepoResponse(query._owner, query._name)
-  const promises: Promise<repoQueryResponse | string>[] = [responsePromise]
-
   if (query.logo) {
     if (query.logo.toLowerCase().startsWith('http')) {
       const imagePromise = getBase64Image(query.logo)
-      promises.push(imagePromise)
+      const imageUrl = await imagePromise
+      Object.assign(query, { logo: imageUrl })
     }
   }
 
-  const responses = await Promise.all(promises)
-  const { repository } = responses[0] as repoQueryResponse
-  if (responses.length > 1) {
-    const imageUrl = responses[1] as string
-    Object.assign(query, { logo: imageUrl })
-  }
-  const config = mergeConfig(repository, query)
+  const config = mergeConfig(query)
+
+  console.log(config)
 
   if (!config) throw Error('Configuration failed to generate')
 

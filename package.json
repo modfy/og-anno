@@ -9,51 +9,37 @@
     "dev": "next dev -p ${PORT-3000}",
     "debug": "NODE_OPTIONS='--inspect' next",
     "build": "next build",
-    "test": "jest",
-    "test:watch": "jest --watch",
     "start": "node server.js",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "yarn lint --fix",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
-    "verify": "yarn prettier && yarn lint && yarn test",
-    "relay": "relay-compiler --language typescript --extensions ts tsx"
+    "verify": "yarn prettier"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
     "antd": "^4.7.3",
     "copee": "^1.0.6",
     "hero-patterns": "^2.1.0",
     "next": "^10.0.0",
     "node-fetch": "^2.6.1",
+    "rc-menu": "^9.0.10",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-relay": "^10.0.1",
-    "relay-runtime": "^10.0.1",
     "styled-jsx": "^3.3.1",
     "typescript": "~4.0.5",
     "use-debounce": "^5.0.1"
   },
   "devDependencies": {
-    "@types/enzyme": "^3.10.7",
-    "@types/enzyme-adapter-react-16": "^1.0.6",
-    "@types/enzyme-to-json": "^1.5.4",
-    "@types/jest": "^26.0.15",
     "@types/lodash": "^4.14.162",
     "@types/node": "^14.14.5",
     "@types/node-fetch": "^2.5.7",
     "@types/react": "^16.9.54",
     "@types/react-dom": "^16.9.9",
-    "@types/react-relay": "^7.0.15",
-    "@types/relay-runtime": "^10.0.9",
     "@types/styled-jsx": "^2.2.8",
     "@typescript-eslint/eslint-plugin": "^4.6.0",
     "@typescript-eslint/parser": "^4.6.0",
     "babel-eslint": "^10.1.0",
-    "babel-jest": "^26.6.1",
-    "babel-plugin-relay": "^10.0.1",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.5",
-    "enzyme-to-json": "^3.6.1",
     "eslint": "^7.12.1",
     "eslint-config-prettier": "^6.15.0",
     "eslint-config-prettier-standard": "^3.0.1",
@@ -70,16 +56,12 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-standard": "^4.0.2",
     "google-fonts-plugin": "^5.0.2",
-    "graphql": "^15.4.0",
-    "graphql-compiler": "^1.7.0",
     "husky": "^4.3.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.1",
     "prettier": "^2.1.2",
     "prettier-config-standard": "^1.0.1",
-    "relay-compiler": "^10.0.1",
-    "relay-compiler-language-typescript": "^13.0.1",
-    "relay-config": "^10.0.1"
+    "webpack": "^4.41.0"
   },
   "browserslist": {
     "production": [
@@ -93,37 +75,12 @@
       "last 1 safari version"
     ]
   },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!src/**/*.d.ts"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/config/jest/setupTests.ts"
-    ],
-    "testMatch": [
-      "<rootDir>/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/**/*.{spec,test}.{js,jsx,ts,tsx}"
-    ],
-    "moduleNameMapper": {
-      "\\.(css|less)$": "identity-obj-proxy"
-    },
-    "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
-      "^.+\\.module\\.(css|sass|scss)$"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
-  },
   "husky": {
     "hooks": {
       "pre-commit": "yarn verify"
     }
+  },
+  "resolutions": {
+    "webpack": "^4.41.0"
   }
 }

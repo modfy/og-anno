@@ -14,8 +14,8 @@ const Preview: React.FC = () => {
   const router = useRouter() || { query: {}, asPath: '' }
   const { config } = useContext(ConfigContext)
 
-  const [path, query] = router.asPath.split('?')
-  const relativeImageUrl = `${path}/image${query ? `?${query}` : ''}`
+  const query = router.asPath.split('?').pop()
+  const relativeImageUrl = `/image${query ? `?${query}` : ''}`
 
   const getImageUrl = (): string => {
     return `${window.location.protocol}//${window.location.host}${relativeImageUrl}`
@@ -36,7 +36,7 @@ const Preview: React.FC = () => {
 
   const copyMarkdown = () => {
     const screenshotImageUrl = getImageUrl()
-    const ogTag = `![${config.name}](${screenshotImageUrl})`
+    const ogTag = `![${config.title}](${screenshotImageUrl})`
     const success = toClipboard(ogTag)
     if (success) {
       notification.success({
@@ -48,7 +48,7 @@ const Preview: React.FC = () => {
 
   const copyImageTag = () => {
     const screenshotImageUrl = getImageUrl()
-    const ogTag = `<img src="${screenshotImageUrl}" alt="${config.name}" width="640" height="320" />`
+    const ogTag = `<img src="${screenshotImageUrl}" alt="${config.title}" width="640" height="320" />`
     const success = toClipboard(ogTag)
     if (success) {
       notification.success({

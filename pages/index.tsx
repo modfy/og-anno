@@ -1,8 +1,8 @@
 import React from 'react'
-import Repo from '../src/components/repo/repo'
+import MainRenderer from '../src/components/mainRenderer'
 
-const HomePage = () => {
-  return <Repo />
+const RepoPage = () => {
+  return <MainRenderer />
 }
 
-export default HomePage
+export default RepoPage

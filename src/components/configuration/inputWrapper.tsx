@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Col, Input, Typography } from 'antd'
+import { Col, Input, Row, Typography } from 'antd'
 
 import ConfigType from '../../../common/types/configType'
 
@@ -24,7 +24,7 @@ const InputWrapper = ({
   handleChange
 }: InputProps) => {
   return (
-    <>
+    <Row>
       <Col span={10}>
         <Text strong>{title}</Text>
       </Col>
@@ -39,7 +39,7 @@ const InputWrapper = ({
           }}
         />
       </Col>
-    </>
+    </Row>
   )
 }
 export default InputWrapper

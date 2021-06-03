@@ -4,7 +4,32 @@ enum Theme {
   dark = 'Dark'
 }
 
+enum Language {
+  None = 'none',
+  C = 'c-plain',
+  'C#' = 'csharp-plain',
+  'C++' = 'cplusplus-plain',
+  CoffeeScript = 'coffeescript-original',
+  CSS = 'css3-plain',
+  Go = 'go-plain',
+  Groovy = 'groovy-plain',
+  HTML = 'html5-plain',
+  Java = 'java-plain',
+  JavaScript = 'javascript-plain',
+  'Jupyter Notebook' = 'python-plain',
+  PHP = 'php-plain',
+  Python = 'python-plain',
+  Ruby = 'ruby-plain',
+  Rust = 'rust-plain',
+  Scala = 'scala-plain',
+  Swift = 'swift-plain',
+  TypeScript = 'typescript-plain',
+  GitHub = 'github-original',
+  DevIcon = 'devicon-plain'
+}
+
 enum Pattern {
+  solid = 'Solid',
   signal = 'Signal',
   charlieBrown = 'Charlie Brown',
   formalInvitation = 'Formal Invitation',
@@ -26,38 +51,30 @@ enum Font {
 }
 
 export type RequiredConfigs = {
-  name: string
+  title: string
   logo: string
 
   font: Font
   theme: Theme
   pattern: Pattern
+  language?: Language
 }
 
 const OptionalConfigKeyStrings = {
-  owner: true,
-  description: true,
-  language: true
-}
-
-const OptionalConfigKeyNumbers = {
-  stargazers: true,
-  forks: true,
-  issues: true,
-  pulls: true
+  description: true
 }
 
 export const RequiredConfigsKeys = {
-  name: true,
+  title: true,
   logo: true,
   font: true,
   theme: true,
-  pattern: true
+  pattern: true,
+  language: true
 }
 
 export const OptionalConfigsKeys = {
-  ...OptionalConfigKeyStrings,
-  ...OptionalConfigKeyNumbers
+  ...OptionalConfigKeyStrings
 }
 
 type OptionalConfigStringElement = {
@@ -67,19 +84,11 @@ type OptionalConfigStringElement = {
     editable?: boolean
   }
 }
-type OptionalConfigNumberElement = {
-  [name in keyof typeof OptionalConfigKeyNumbers]?: {
-    state: boolean
-    value: number
-    editable?: boolean
-  }
-}
 
-export type OptionalConfigs = OptionalConfigStringElement &
-  OptionalConfigNumberElement
+export type OptionalConfigs = OptionalConfigStringElement
 
 type Configuration = RequiredConfigs & OptionalConfigs
 
 export default Configuration
 
-export { Theme, Pattern, Font }
+export { Theme, Pattern, Font, Language }

@@ -6,17 +6,11 @@ type QueryType = {
   pattern: Pattern
 
   language: string
-  stargazers: string
-  forks: string
-  issues: string
-  pulls: string
   description: string
   descriptionEditable: string
-  owner: string
   logo: string
 
-  _owner: string
-  _name: string
+  title: string
 }
 
 export default QueryType

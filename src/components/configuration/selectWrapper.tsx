@@ -35,10 +35,13 @@ const SelectWrapper = ({
             handleChange({ val: v, required: true }, keyName)
           }}
           value={value}
-          style={{ width: '100%' }}>
+          style={{ width: '100%', textTransform: 'capitalize' }}>
           {map.map(({ key, label }) => {
             return (
-              <Option key={key} value={label}>
+              <Option
+                style={{ textTransform: 'capitalize' }}
+                key={key}
+                value={label}>
                 {label}
               </Option>
             )

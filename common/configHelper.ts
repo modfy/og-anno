@@ -1,6 +1,6 @@
-import { repoQueryResponse } from './relay/__generated__/repoQuery.graphql'
 import Configuration, {
   Font,
+  Language,
   OptionalConfigs,
   OptionalConfigsKeys,
   Pattern,
@@ -11,52 +11,35 @@ import QueryType from './types/queryType'
 type Key = keyof typeof OptionalConfigsKeys
 
 const DEFAULT_CONFIG: Configuration = {
-  name: '',
+  title: '',
   logo: '',
   font: Font.inter,
   theme: Theme.light,
-  pattern: Pattern.plus
+  pattern: Pattern.plus,
+  language: Language.None
 }
 
-const getOptionalConfig = (repository: repoQueryResponse['repository']) => {
-  if (repository) {
-    const languages = repository.languages?.nodes || []
-    const language =
-      languages.length > 0 ? languages[0]?.name || 'unknown' : 'unknown'
-    const newConfig: OptionalConfigs = {
-      owner: { state: false, value: repository.owner.login },
-      description: {
-        state: false,
-        editable: true,
-        value: repository.description || ''
-      },
-      language: { state: false, value: language },
-      stargazers: { state: false, value: repository.stargazerCount },
-      forks: { state: false, value: repository.forkCount },
-      pulls: { state: false, value: repository.pullRequests.totalCount },
-      issues: { state: false, value: repository.issues.totalCount }
+const getOptionalConfig = () => {
+  const newConfig: OptionalConfigs = {
+    description: {
+      state: false,
+      editable: true,
+      value: ''
     }
-    return newConfig
   }
-  return null
+  return newConfig
 }
 
-const mergeConfig = (
-  repository: repoQueryResponse['repository'],
-  query: QueryType
-): Configuration | null => {
-  if (!repository) {
-    return null
-  }
-
+const mergeConfig = (query: QueryType): Configuration | null => {
   const config: Configuration = {
-    name: repository.name,
+    title: query.title,
     logo: query.logo || DEFAULT_CONFIG.logo,
     font: query.font || DEFAULT_CONFIG.font,
     pattern: query.pattern || DEFAULT_CONFIG.pattern,
-    theme: query.theme || DEFAULT_CONFIG.theme
+    theme: query.theme || DEFAULT_CONFIG.theme,
+    language: (query.language as Language) || DEFAULT_CONFIG.language
   }
-  const optionalConfig = getOptionalConfig(repository)
+  const optionalConfig = getOptionalConfig()
 
   if (optionalConfig) {
     Object.assign(config, optionalConfig)

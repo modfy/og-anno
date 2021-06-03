@@ -7,10 +7,10 @@ import ConfigType, {
   Theme,
   Pattern,
   Font,
-  RequiredConfigsKeys
+  RequiredConfigsKeys,
+  Language
 } from '../../../common/types/configType'
 
-import { repoQueryResponse } from '../../../common/relay/__generated__/repoQuery.graphql'
 import { getOptionalConfig } from '../../../common/configHelper'
 
 import SelectWrapper from './selectWrapper'
@@ -18,11 +18,7 @@ import CheckBoxWrapper from './checkBoxWrapper'
 import InputWrapper from './inputWrapper'
 import TextAreaWrapper from './textAreaWrapper'
 
-type ConfigProp = {
-  repository: repoQueryResponse['repository']
-}
-
-const Config = ({ repository }: ConfigProp) => {
+const Config = () => {
   const router = useRouter()
 
   const { config, setConfig } = useContext(ConfigContext)
@@ -30,9 +26,7 @@ const Config = ({ repository }: ConfigProp) => {
   const handleChanges = (changes: { value: any; key: keyof ConfigType }[]) => {
     let newConfig: ConfigType = { ...config }
     const urlParams = router.query
-    // Remove extraneous params from route
-    delete urlParams._owner
-    delete urlParams._name
+
     changes.forEach(({ value, key }) => {
       const currentValue = newConfig[key] ? newConfig[key] : {}
       if (value.required === true) {
@@ -73,42 +67,40 @@ const Config = ({ repository }: ConfigProp) => {
 
   useEffect(() => {
     const handleRouteChange = (asPath: string) => {
-      if (repository) {
-        const newConfig = getOptionalConfig(repository)
-        if (newConfig) {
-          const params = new URLSearchParams(asPath.split('?')[1])
+      const newConfig = getOptionalConfig()
+      if (newConfig) {
+        const params = new URLSearchParams(asPath.split('?')[1])
 
-          Array.from(params.keys()).forEach(stringKey => {
-            const key = stringKey as keyof ConfigType
-            if (key in newConfig) {
-              const query = params.get(key)
-              const currentConfig = newConfig[key as keyof typeof newConfig]
-              const newChange = {
-                state: query === '1'
-              }
-              if (currentConfig?.editable) {
-                const editableValue = params.get(`${key}Editable`)
-                if (editableValue != null) {
-                  Object.assign(newChange, {
-                    value: editableValue
-                  })
-                }
-              }
-
-              Object.assign(newConfig[key as keyof typeof newConfig], newChange)
-            } else if (key in RequiredConfigsKeys) {
-              const query = params.get(key)
-              if (query != null) {
-                const newChange = {
-                  [key]: query
-                }
-
-                Object.assign(newConfig, newChange)
+        Array.from(params.keys()).forEach(stringKey => {
+          const key = stringKey as keyof ConfigType
+          if (key in newConfig) {
+            const query = params.get(key)
+            const currentConfig = newConfig[key as keyof typeof newConfig]
+            const newChange = {
+              state: query === '1'
+            }
+            if (currentConfig?.editable) {
+              const editableValue = params.get(`${key}Editable`)
+              if (editableValue != null) {
+                Object.assign(newChange, {
+                  value: editableValue
+                })
               }
             }
-          })
-          setConfig({ ...config, ...newConfig, name: repository.name })
-        }
+
+            Object.assign(newConfig[key as keyof typeof newConfig], newChange)
+          } else if (key in RequiredConfigsKeys) {
+            const query = params.get(key)
+            if (query != null) {
+              const newChange = {
+                [key]: query
+              }
+
+              Object.assign(newConfig, newChange)
+            }
+          }
+        })
+        setConfig({ ...config, ...newConfig })
       }
     }
 
@@ -120,10 +112,6 @@ const Config = ({ repository }: ConfigProp) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  if (!repository) {
-    return null
-  }
 
   return (
     <div>
@@ -141,6 +129,13 @@ const Config = ({ repository }: ConfigProp) => {
                 value={config.theme}
                 defaultValue={Theme.light}
                 handleChange={handleChange}></SelectWrapper>
+              <InputWrapper
+                keyName="title"
+                title="Title"
+                placeholder="The title you want to set"
+                value={config.title || ''}
+                handleChange={handleChange}
+              />
               <SelectWrapper
                 title="Font"
                 keyName="font"
@@ -163,52 +158,25 @@ const Config = ({ repository }: ConfigProp) => {
                 defaultValue={Pattern.plus}
                 handleChange={handleChange}
               />
-              <Row>
-                <InputWrapper
-                  title="Logo"
-                  keyName="logo"
-                  placeholder={'Enter logo url'}
-                  value={config.logo}
-                  handleChange={handleChange}
-                />
-              </Row>
-              <Row gutter={[24, 24]}>
-                <CheckBoxWrapper
-                  title="Owner"
-                  keyName="owner"
-                  checked={config.owner?.state}
-                  handleChange={handleChange}></CheckBoxWrapper>
-                <CheckBoxWrapper
-                  title="Language"
-                  keyName="language"
-                  checked={config.language?.state}
-                  handleChange={handleChange}
-                />
-                <CheckBoxWrapper
-                  title="Stars"
-                  keyName="stargazers"
-                  checked={config.stargazers?.state}
-                  handleChange={handleChange}
-                />
-                <CheckBoxWrapper
-                  title="Forks"
-                  keyName="forks"
-                  checked={config.forks?.state}
-                  handleChange={handleChange}
-                />
-                <CheckBoxWrapper
-                  title="Issues"
-                  keyName="issues"
-                  checked={config.issues?.state}
-                  handleChange={handleChange}
-                />
-                <CheckBoxWrapper
-                  title="Pull Requests"
-                  keyName="pulls"
-                  checked={config.pulls?.state}
-                  handleChange={handleChange}
-                />
-              </Row>
+              <InputWrapper
+                title="Logo"
+                keyName="logo"
+                placeholder={'Enter logo url'}
+                value={config.logo}
+                handleChange={handleChange}
+              />
+
+              <SelectWrapper
+                title="Devicons"
+                keyName="language"
+                map={Object.keys(Language).map(key => ({
+                  key,
+                  label: (Language as any)[key]
+                }))}
+                value={config.language || Language.None}
+                defaultValue={Language.GitHub}
+                handleChange={handleChange}
+              />
               <Row>
                 <div className="text-area-wrapper">
                   <CheckBoxWrapper
@@ -220,7 +188,7 @@ const Config = ({ repository }: ConfigProp) => {
                   <TextAreaWrapper
                     keyName="description"
                     value={config.description?.value || ''}
-                    defaultValue={repository.description || ''}
+                    defaultValue={''}
                     handleChange={handleChange}
                     disabled={!config.description?.state}
                   />

@@ -12,35 +12,17 @@ import {
 } from 'hero-patterns'
 
 const getDevIconClassName = (language: string, theme: Theme): string => {
-  const LANGUAGE_ICON_MAPPING: { [key: string]: string } = {
-    C: 'c-plain',
-    'C#': 'csharp-plain',
-    'C++': 'cplusplus-plain',
-    CoffeeScript: 'coffeescript-original',
-    CSS: 'css3-plain',
-    Go: 'go-plain',
-    Groovy: 'groovy-plain',
-    HTML: 'html5-plain',
-    Java: 'java-plain',
-    JavaScript: 'javascript-plain',
-    'Jupyter Notebook': 'python-plain',
-    PHP: 'php-plain',
-    Python: 'python-plain',
-    Ruby: 'ruby-plain',
-    Rust: 'rust-plain',
-    Scala: 'scala-plain',
-    Swift: 'swift-plain',
-    TypeScript: 'typescript-plain',
-    GitHub: 'github-original',
-    DevIcon: 'devicon-plain'
-  }
-
-  return `devicon-${LANGUAGE_ICON_MAPPING[language] || 'devicon-plain'} ${
+  return `${language ? `devicon-${language}` : 'devicon-plain'} ${
     theme === Theme.light ? 'colored' : ''
   }`
 }
 
 const getHeroPattern = (pattern: Pattern, theme: Theme): string => {
+  if (pattern === Pattern.solid) {
+    console.log('Return solid')
+    return theme === Theme.dark ? 'black' : 'white'
+  }
+
   const PATTERN_FUNCTIONS_MAPPING: { [key: string]: any } = {
     [Pattern.signal]: signal,
     [Pattern.charlieBrown]: charlieBrown,
