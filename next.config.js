@@ -3,8 +3,6 @@ const GoogleFontsPlugin = require('google-fonts-plugin')
 const fontNames = require('./common/fonts/fonts.json')
 
 module.exports = {
-  target: 'experimental-serverless-trace',
-
   webpack: config => {
     config.plugins.push(
       new GoogleFontsPlugin({
