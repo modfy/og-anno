@@ -4,11 +4,9 @@ import { Col, Form, Row, Space } from 'antd'
 import ConfigContext from '../../contexts/ConfigContext'
 
 import ConfigType, {
-  Theme,
-  Pattern,
+  Type,
   Font,
-  RequiredConfigsKeys,
-  Language
+  RequiredConfigsKeys
 } from '../../../common/types/configType'
 
 import { getOptionalConfig } from '../../../common/configHelper'
@@ -120,14 +118,14 @@ const Config = () => {
           <Form>
             <Space direction="vertical" size="middle" style={{ width: '100%' }}>
               <SelectWrapper
-                title="Theme"
-                keyName="theme"
-                map={Object.keys(Theme).map(key => ({
+                title="Type"
+                keyName="type"
+                map={Object.keys(Type).map(key => ({
                   key,
-                  label: (Theme as any)[key]
+                  label: (Type as any)[key]
                 }))}
-                value={config.theme}
-                defaultValue={Theme.light}
+                value={config.type}
+                defaultValue={Type.audio}
                 handleChange={handleChange}></SelectWrapper>
               <InputWrapper
                 keyName="title"
@@ -147,36 +145,14 @@ const Config = () => {
                 defaultValue={Font.inter}
                 handleChange={handleChange}
               />
-              <SelectWrapper
-                title="Background Pattern"
-                keyName="pattern"
-                map={Object.keys(Pattern).map(key => ({
-                  key,
-                  label: (Pattern as any)[key]
-                }))}
-                value={config.pattern}
-                defaultValue={Pattern.plus}
-                handleChange={handleChange}
-              />
               <InputWrapper
-                title="Logo"
-                keyName="logo"
-                placeholder={'Enter logo url'}
-                value={config.logo}
+                title="Bg Image"
+                keyName="bgImage"
+                placeholder={'Enter bgImage url'}
+                value={config.bgImage}
                 handleChange={handleChange}
               />
 
-              <SelectWrapper
-                title="Devicons"
-                keyName="language"
-                map={Object.keys(Language).map(key => ({
-                  key,
-                  label: (Language as any)[key]
-                }))}
-                value={config.language || Language.None}
-                defaultValue={Language.GitHub}
-                handleChange={handleChange}
-              />
               <Row>
                 <div className="text-area-wrapper">
                   <CheckBoxWrapper
