@@ -1,3 +1,5 @@
+import React from 'react'
+
 export const AudioCard: React.FC<{ title: string }> = config => {
   return (
     <svg

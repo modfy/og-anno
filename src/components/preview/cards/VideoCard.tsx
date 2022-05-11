@@ -1,3 +1,5 @@
+import React from 'react'
+
 export const VideoCard: React.FC<{ title: string; image: string }> = config => {
   return (
     <svg
@@ -22,7 +24,7 @@ export const VideoCard: React.FC<{ title: string; image: string }> = config => {
           />
         </pattern>
       </defs>
-      <g clip-path="url(#clip0_252_210)">
+      <g clipPath="url(#clip0_252_210)">
         <rect width="1280" height="640" fill="#0F172A" />
         <rect width="1280" height="640" fill="url(#img1)" />
         <g opacity="0.8" filter="url(#filter0_f_252_210)">
@@ -125,8 +127,8 @@ export const VideoCard: React.FC<{ title: string; image: string }> = config => {
           width="2390.14"
           height="2390.14"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB">
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          colorInterpolationFilters="sRGB">
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feBlend
             mode="normal"
             in="SourceGraphic"
@@ -145,8 +147,8 @@ export const VideoCard: React.FC<{ title: string; image: string }> = config => {
           width="2390.14"
           height="2390.14"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB">
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          colorInterpolationFilters="sRGB">
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feBlend
             mode="normal"
             in="SourceGraphic"
@@ -165,8 +167,8 @@ export const VideoCard: React.FC<{ title: string; image: string }> = config => {
           width="10.512"
           height="5.38275"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB">
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          colorInterpolationFilters="sRGB">
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
