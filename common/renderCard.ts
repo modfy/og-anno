@@ -53,9 +53,9 @@ const getBase64Image = async (imgUrl: string) => {
 }
 
 const renderCard = async (query: QueryType) => {
-  if (query.logo) {
-    if (query.logo.toLowerCase().startsWith('http')) {
-      const imagePromise = getBase64Image(query.logo)
+  if (query.bgImage) {
+    if (query.bgImage.toLowerCase().startsWith('http')) {
+      const imagePromise = getBase64Image(query.bgImage)
       const imageUrl = await imagePromise
       Object.assign(query, { logo: imageUrl })
     }
@@ -71,14 +71,25 @@ const renderCard = async (query: QueryType) => {
   const cardHTMLMarkup = ReactDOMServer.renderToStaticMarkup(cardComponent)
   const styleTags = flushToHTML()
 
-  return cardHTMLMarkup.replace(
-    '</foreignObject>',
-    `${styleTags}</foreignObject>
+  if (cardHTMLMarkup.includes('</foreignObject>')) {
+    return cardHTMLMarkup.replace(
+      '</foreignObject>',
+      `${styleTags}</foreignObject>
     <defs><style type="text/css">
       ${devIconCSS}
       ${getGoogleFontCSS(config.font)}
     </style></defs>`
-  )
+    )
+  } else {
+    return cardHTMLMarkup.replace(
+      '</svg>',
+      `
+    <defs><style type="text/css">
+      ${devIconCSS}
+      ${getGoogleFontCSS(config.font)}
+    </style></defs></svg>`
+    )
+  }
 }
 
 export default renderCard

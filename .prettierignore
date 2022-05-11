@@ -3,3 +3,4 @@ __generated__/
 package.json
 build/
 .next/
+.pnpm-local.yaml

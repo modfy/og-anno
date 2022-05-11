@@ -1,14 +1,12 @@
-import { Font, Pattern, Theme } from './configType'
+import { Font, Type } from './configType'
 
 type QueryType = {
   font: Font
-  theme: Theme
-  pattern: Pattern
+  type: Type
 
-  language: string
   description: string
   descriptionEditable: string
-  logo: string
+  bgImage: string
 
   title: string
 }

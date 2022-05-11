@@ -1,10 +1,8 @@
 import Configuration, {
   Font,
-  Language,
   OptionalConfigs,
   OptionalConfigsKeys,
-  Pattern,
-  Theme
+  Type
 } from './types/configType'
 import QueryType from './types/queryType'
 
@@ -12,11 +10,9 @@ type Key = keyof typeof OptionalConfigsKeys
 
 const DEFAULT_CONFIG: Configuration = {
   title: '',
-  logo: '',
+  bgImage: 'https://editor.modfy.video/api/thumbnail/default',
   font: Font.inter,
-  theme: Theme.light,
-  pattern: Pattern.plus,
-  language: Language.None
+  type: Type.audio
 }
 
 const getOptionalConfig = () => {
@@ -33,11 +29,9 @@ const getOptionalConfig = () => {
 const mergeConfig = (query: QueryType): Configuration | null => {
   const config: Configuration = {
     title: query.title,
-    logo: query.logo || DEFAULT_CONFIG.logo,
+    bgImage: query.bgImage || DEFAULT_CONFIG.bgImage,
     font: query.font || DEFAULT_CONFIG.font,
-    pattern: query.pattern || DEFAULT_CONFIG.pattern,
-    theme: query.theme || DEFAULT_CONFIG.theme,
-    language: (query.language as Language) || DEFAULT_CONFIG.language
+    type: query.type || DEFAULT_CONFIG.type
   }
   const optionalConfig = getOptionalConfig()
 
