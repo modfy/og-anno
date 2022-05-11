@@ -37,6 +37,7 @@ specifiers:
   identity-obj-proxy: ^3.0.0
   jest: ^26.6.1
   next: ^12.1.6
+  nextjs-cors: ^2.1.1
   node-fetch: ^2.6.1
   prettier: ^2.1.2
   prettier-config-standard: ^1.0.1
@@ -54,6 +55,7 @@ dependencies:
   copee: 1.0.6
   hero-patterns: 2.1.0
   next: 12.1.6_react-dom@17.0.2+react@17.0.2
+  nextjs-cors: 2.1.1_next@12.1.6
   node-fetch: 2.6.1
   rc-menu: 9.0.10_react-dom@17.0.2+react@17.0.2
   react: 17.0.2
@@ -2840,6 +2842,17 @@ packages:
   /core-util-is/1.0.2:
     resolution: { integrity: sha1-tf1UIgqivFq1eqtxQMlAdUUDwac= }
     dev: true
+
+  /cors/2.8.5:
+    resolution:
+      {
+        integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==
+      }
+    engines: { node: '>= 0.10' }
+    dependencies:
+      object-assign: 4.1.1
+      vary: 1.1.2
+    dev: false
 
   /cosmiconfig/7.0.0:
     resolution:
@@ -6365,6 +6378,18 @@ packages:
       - babel-plugin-macros
     dev: false
 
+  /nextjs-cors/2.1.1_next@12.1.6:
+    resolution:
+      {
+        integrity: sha512-HxE4w4Wng5VdTtnn0DWPphuWKwd1Ty+lpyTZ/sQGgaNnd5demYMchKf+W1LtI8YFYxu2HnRb3MrxERRV0QKLKA==
+      }
+    peerDependencies:
+      next: ^8.1.1-canary.54 || ^9.0.0 || ^10.0.0-0 || ^11.0.0 || ^12.0.0
+    dependencies:
+      cors: 2.8.5
+      next: 12.1.6_react-dom@17.0.2+react@17.0.2
+    dev: false
+
   /nice-try/1.0.5:
     resolution:
       {
@@ -9314,6 +9339,11 @@ packages:
       spdx-correct: 3.1.1
       spdx-expression-parse: 3.0.1
     dev: true
+
+  /vary/1.1.2:
+    resolution: { integrity: sha1-IpnwLG3tMNSllhsLn3RSShj2NPw= }
+    engines: { node: '>= 0.8' }
+    dev: false
 
   /vm-browserify/1.1.2:
     resolution:
