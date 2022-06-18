@@ -15,7 +15,7 @@ export const AudioCard: React.FC<{ title: string }> = config => {
           width="1280"
           height="640">
           <image
-            href="/assets/gradient.png"
+            href="https://og-anno.vercel.app/assets/gradient.png"
             x="0"
             y="0"
             width="100%"
