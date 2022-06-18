@@ -23,16 +23,31 @@ export const VideoCard: React.FC<{ title: string; image: string }> = config => {
             preserveAspectRatio="xMidYMid slice"
           />
         </pattern>
+        <pattern
+          id="img2"
+          patternUnits="userSpaceOnUse"
+          width="1280"
+          height="640">
+          <image
+            href="/assets/gradient.png"
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            preserveAspectRatio="xMidYMid slice"
+          />
+        </pattern>
       </defs>
       <g clipPath="url(#clip0_252_210)">
         <rect width="1280" height="640" fill="#0F172A" />
         <rect width="1280" height="640" fill="url(#img1)" />
-        <g opacity="0.8" filter="url(#filter0_f_252_210)">
+        <rect width="1280" height="640" fill="url(#img2)" />
+        {/* <g opacity="0.8" filter="url(#filter0_f_252_210)">
           <circle cx="1398" cy="233.555" r="438.996" fill="#7C3AED" />
         </g>
         <g filter="url(#filter1_f_252_210)">
           <circle cx="64.9961" cy="654.996" r="438.996" fill="#5850EC" />
-        </g>
+        </g> */}
         <text x="45" y="91" fontFamily="Inter" fontSize="86" fill="white">
           {config.title}
         </text>

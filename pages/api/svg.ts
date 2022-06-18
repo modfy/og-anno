@@ -16,10 +16,13 @@ const svgEndpoint = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const svg = await renderCard(query)
-    res.setHeader(
-      'Cache-Control',
-      `max-age=${'cache' in req.query ? req.query.cache : 3600}, public`
-    )
+
+    if (process.env.NODE_ENV === 'production') {
+      res.setHeader(
+        'Cache-Control',
+        `max-age=${'cache' in req.query ? req.query.cache : 3600}, public`
+      )
+    }
     res.setHeader('Content-Type', 'image/svg+xml')
     res.send(svg)
   } catch (ex) {

@@ -6,7 +6,7 @@ import { DownOutlined, DownloadOutlined, CopyOutlined } from '@ant-design/icons'
 import { MenuInfo } from 'rc-menu/lib/interface'
 
 import ConfigContext from '../../contexts/ConfigContext'
-
+import { Canvg } from 'canvg'
 import Card from './card'
 import { checkWebpSupport } from '../../../common/helpers'
 
@@ -65,24 +65,25 @@ const Preview: React.FC = () => {
       if (!imageResponse.ok) throw Error('Failed to fetch image')
       const imageSVGString = await imageResponse.text()
 
-      const img = new Image()
-      img.onload = () => {
-        const canvas = document.createElement('canvas')
-        canvas.width = 1280
-        canvas.height = 640
-        const context = canvas.getContext('2d')
-        if (context && img) {
-          context.drawImage(img, 0, 0, canvas.width, canvas.height)
-          const dataUrl = canvas.toDataURL(`image/${fileType}`)
-          const link = document.createElement('a')
-          link.download = `${router.query._name}.${fileType}`
-          link.href = dataUrl
-          link.click()
-        }
-      }
-      img.src = `data:image/svg+xml;charset=utf8,${encodeURIComponent(
-        imageSVGString
-      )}`
+      const canvas = document.getElementById('preview')! as HTMLCanvasElement
+      const context = canvas.getContext('2d')!
+
+      const v = Canvg.fromString(context, imageSVGString, {
+        // scaleHeight: Math.min(canvas.height, 8192),
+        scaleHeight: 640,
+        scaleWidth: 1280,
+        anonymousCrossOrigin: true
+      })
+
+      await v.render()
+
+      const dataUrl = canvas.toDataURL(`image/${fileType}`)
+
+      console.log({ dataUrl })
+      const link = document.createElement('a')
+      link.download = `${router.query._name}.${fileType}`
+      link.href = dataUrl
+      link.click()
     } catch (error) {
       console.error(error)
       notification.error({
@@ -116,11 +117,7 @@ const Preview: React.FC = () => {
           href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.6/devicon.min.css"
         />
         <Card {...config} />
-        <img
-          className="preview-image-wrapper"
-          alt="Card"
-          src={relativeImageUrl}
-        />
+        <canvas className="preview-image-wrapper" id="preview"></canvas>
       </div>
       <div className="preview-download-wrapper">
         <Space>

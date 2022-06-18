@@ -19,6 +19,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "antd": "^4.7.3",
+    "canvg": "^4.0.0",
     "copee": "^1.0.6",
     "hero-patterns": "^2.1.0",
     "next": "^10.0.0",
